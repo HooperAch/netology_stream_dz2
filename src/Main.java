@@ -25,21 +25,17 @@ public class Main {
 
         System.out.println("Task 1");
         //Найти количество несовершеннолетних (т.е. людей младше 18 лет).
-        long countYoung = persons.stream()
+        persons.stream()
                 .filter(x -> (x.getAge() < 18))
                 //.collect(Collectors.toList())
                 .count();
-        System.out.println(countYoung);
-
-
+        
         //Получить список фамилий призывников (т.е. мужчин от 18 и до 27 лет).
         System.out.println("Task 2");
         persons.stream()
                 .filter(x -> (x.getSex() == Sex.MAN))
                 .filter(x -> (x.getAge() > 18) && (x.getAge() < 27))
                 .collect(Collectors.toList());
-        //.forEach(System.out::println);
-
 
 //Получить отсортированный по фамилии список потенциально работоспособных людей с высшим образованием в выборке
 // (т.е. людей с высшим образованием от 18 до 60 лет для женщин и до 65 лет для мужчин).
