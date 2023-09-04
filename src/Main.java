@@ -1,6 +1,7 @@
 //Занятие 2. Задача 1. Работа с числами
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -9,7 +10,7 @@ public class Main {
         List<String> names = Arrays.asList("Jack", "Connor", "Harry", "George", "Samuel", "John");
         List<String> families = Arrays.asList("Evans", "Young", "Harris", "Wilson", "Davies", "Adamson", "Brown");
         Collection<Person> persons = new ArrayList<>();
-        for (int i = 0; i < 10_000_000; i++) {
+        for (int i = 0; i < 30/*10_000_000*/; i++) {
             persons.add(new Person(
                     names.get(new Random().nextInt(names.size())),
                     families.get(new Random().nextInt(families.size())),
@@ -19,27 +20,39 @@ public class Main {
             );
         }
 
+        persons.stream()
+                .forEach(System.out::println);
+
+        System.out.println("Task 1");
         //Найти количество несовершеннолетних (т.е. людей младше 18 лет).
         long countYoung = persons.stream()
-                .filter(x -> x.getAge() < 18)
+                .filter(x -> (x.getAge() < 18))
+                //.collect(Collectors.toList())
                 .count();
         System.out.println(countYoung);
-/*
-//Получить список фамилий призывников (т.е. мужчин от 18 и до 27 лет).
+
+
+        //Получить список фамилий призывников (т.е. мужчин от 18 и до 27 лет).
+        System.out.println("Task 2");
         persons.stream()
-                .filter() man
-                .filter() age
-                .map()
+                .filter(x -> (x.getSex() == Sex.MAN))
+                .filter(x -> (x.getAge() > 18) && (x.getAge() < 27))
                 .collect(Collectors.toList());
+        //.forEach(System.out::println);
 
-//Получить отсортированный по фамилии список потенциально работоспособных людей с высшим образованием в выборке (т.е. людей с высшим образованием от 18 до 60 лет для женщин и до 65 лет для мужчин).
+
+//Получить отсортированный по фамилии список потенциально работоспособных людей с высшим образованием в выборке
+// (т.е. людей с высшим образованием от 18 до 60 лет для женщин и до 65 лет для мужчин).
+        System.out.println("Task 3");
         persons.stream()
-                .filter()
-                .sorted(Comparator.comparing())
-                .collect();
-*/
-
-//System.out.println(persons);
+                .filter(x ->
+                        ((x.getSex() == Sex.MAN) && (x.getAge() > 18) && (x.getAge() < 65)) ||
+                                ((x.getSex() == Sex.WOMAN) && (x.getAge() > 18) && (x.getAge() < 60))
+                )
+                .filter(x -> x.getEducation() == Education.HIGHER)
+                .sorted(Comparator.comparing(Person::getName))
+                .collect(Collectors.toList())
+                .forEach(System.out::println);
 
     }
 }
